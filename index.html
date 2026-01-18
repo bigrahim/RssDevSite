@@ -117,6 +117,24 @@
             &copy; 2026 RSS Research Group. All rights reserved.
         </div>
     </div>
-
+<script>
+    // This is basically Luau but for the web
+    const title = document.querySelector('h1');
+    const text = "> Rohit Shetty"; // The text you want to type
+    title.innerHTML = '>';         // Clear it to start
+    
+    let i = 2; // Start index
+    function typeWriter() {
+        if (i < text.length) {
+            title.innerHTML += text.charAt(i);
+            i++;
+            setTimeout(typeWriter, 100); // Wait 0.1s
+        }
+    }
+    
+    // Run the function
+    setTimeout(typeWriter, 500);
+</script>
 </body>
+
 </html>
