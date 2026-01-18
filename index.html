@@ -113,7 +113,12 @@
             align-items: center;
             background: #020617;
             margin-top: 20px;
-            padding: 15px 25px;
+            padding: 40px 40px;
+            min-height: 100px;
+            flex-wrap: wrap;
+            gap: 20px;
+            border-radius: 8px;
+            border: 1px solid var(--border);
         }
 
         /* UTILITIES */
@@ -146,23 +151,26 @@
             margin-bottom: 5px;
         }
 
+        /* UPDATED BUTTON STYLE (High Contrast Blue) */
         .btn {
-            background: var(--text-primary);
-            color: var(--bg-color);
+            background: var(--accent); /* Bright blue background */
+            color: #000000;            /* Black text for contrast */
             text-decoration: none;
-            padding: 8px 16px;
+            padding: 12px 24px;
             border-radius: 4px;
-            font-weight: 600;
-            font-size: 0.85rem;
+            font-weight: 700;
+            font-size: 0.9rem;
             transition: 0.2s;
+            border: none;
         }
-        .btn:hover { background: var(--accent); }
+        .btn:hover { background: #bae6fd; } /* Lighter blue on hover */
 
         /* MOBILE FIX */
         @media (max-width: 1100px) {
             .dashboard { display: flex; flex-direction: column; }
             .grid-chart { min-height: 350px; }
             .grid-market { min-height: 400px; }
+            .grid-contact { flex-direction: column; text-align: center; gap: 20px; }
         }
     </style>
 </head>
@@ -238,10 +246,14 @@
             </p>
             
             <ul class="method-list">
-                <li>Statistical Arbitrage</li>
-                <li>Sentiment Analysis (NLP)</li>
-                <li>Mean Reversion Algorithms</li>
-                <li>Low-Latency Execution</li>
+                <li>Quantitative Backtesting</li>
+                <li>Custom Signal Generation</li>
+                <li>API & Webhook Integration</li>
+                <li>Automated Risk Controls</li>
+                <li>Data Ingestion Pipelines</li>
+                <li>Technical Indicator Optimization</li>
+                <li>Volatility Regime Detection</li>
+                <li>Performance Analytics</li>
             </ul>
 
             <div style="margin-top: 20px;">
@@ -293,14 +305,14 @@
             </div>
         </div>
 
-        <div class="card grid-contact">
+        <div class="grid-contact">
             <div style="font-size: 0.9rem; color: var(--text-secondary);">
                 Based in Los Angeles, CA<br>
                 <span style="font-size: 0.8rem; opacity: 0.6;">&copy; 2026 RSS Research Group</span>
             </div>
-            <div>
+            <div style="display: flex; gap: 15px;">
                 <a href="mailto:rohit@rssdev.com" class="btn">Contact</a>
-                <a href="https://github.com/yourusername" target="_blank" class="btn" style="background: transparent; border: 1px solid #fff;">GitHub</a>
+                <a href="https://github.com/yourusername" target="_blank" class="btn">GitHub</a>
             </div>
         </div>
 
