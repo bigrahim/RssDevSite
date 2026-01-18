@@ -3,219 +3,245 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>RSS Research | Market Intelligence</title>
+    <title>RSS Research | Dashboard</title>
     <style>
         :root {
-            --bg-color: #0b1120;
+            --bg: #0f172a;
             --card-bg: #1e293b;
-            --text-main: #f8fafc;
-            --text-muted: #94a3b8;
-            --accent: #38bdf8;
-            --success: #34d399;
-            --warning: #fbbf24;
+            --card-hover: #334155;
+            --text-main: #f1f5f9;
+            --text-dim: #94a3b8;
+            --accent: #38bdf8;  /* Blue */
+            --green: #4ade80;   /* Success */
+            --purple: #c084fc;  /* Crypto/Donation */
         }
+
+        * { box-sizing: border-box; }
 
         body {
-            background-color: var(--bg-color);
+            background-color: var(--bg);
             color: var(--text-main);
-            font-family: 'Courier New', Courier, monospace; /* Changed to mono for hacker vibe */
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
             margin: 0;
+            padding: 20px;
             height: 100vh;
             display: flex;
-            justify-content: center;
-            align-items: center;
-            overflow: hidden;
-            
-            /* THE CYBER GRID BACKGROUND */
-            background-image: 
-                linear-gradient(rgba(56, 189, 248, 0.05) 1px, transparent 1px),
-                linear-gradient(90deg, rgba(56, 189, 248, 0.05) 1px, transparent 1px);
-            background-size: 40px 40px;
+            flex-direction: column;
+            overflow: hidden; /* Prevent scrolling on desktop for app feel */
         }
 
-        /* Layout: Split into two columns for desktop */
-        .dashboard {
+        /* THE GRID LAYOUT */
+        .grid-container {
             display: grid;
-            grid-template-columns: 1fr 1fr; /* Two equal columns */
+            grid-template-columns: 2fr 1fr 1fr; /* Large left, two smaller rights */
+            grid-template-rows: 1fr 1fr;        /* Two rows */
             gap: 20px;
-            max-width: 900px;
-            width: 95%;
+            height: 100%;
+            max-width: 1600px;
+            margin: 0 auto;
+            width: 100%;
         }
 
+        /* CARD STYLING */
         .card {
-            background: rgba(30, 41, 59, 0.7); /* Semi-transparent */
-            backdrop-filter: blur(10px);        /* Frosted glass effect */
-            padding: 40px;
-            border-radius: 12px;
-            border: 1px solid rgba(56, 189, 248, 0.1);
-            box-shadow: 0 10px 30px rgba(0,0,0,0.5);
+            background: var(--card-bg);
+            border-radius: 20px;
+            padding: 25px;
+            border: 1px solid rgba(255,255,255,0.05);
+            transition: transform 0.2s, background 0.2s;
+            display: flex;
+            flex-direction: column;
+            position: relative;
+            overflow: hidden;
         }
 
-        /* LEFT SIDE: Intro */
-        h1 {
-            margin-top: 0;
-            color: var(--accent);
+        .card:hover {
+            background: var(--card-hover);
+            transform: translateY(-2px);
+            border-color: rgba(255,255,255,0.1);
+            cursor: default;
+        }
+
+        .card-header {
+            font-size: 0.85rem;
             text-transform: uppercase;
-            letter-spacing: 2px;
-            font-size: 1.8rem;
-        }
-
-        .subtitle {
-            color: var(--text-muted);
-            line-height: 1.6;
-            margin-bottom: 30px;
-        }
-
-        .btn {
-            display: inline-block;
-            padding: 12px 24px;
-            background: var(--accent);
-            color: var(--bg-color);
-            text-decoration: none;
-            font-weight: bold;
-            border-radius: 4px;
-            transition: 0.3s;
-        }
-        .btn:hover {
-            box-shadow: 0 0 15px var(--accent);
-        }
-
-        /* RIGHT SIDE: The "Graphs" */
-        .metrics-title {
-            font-size: 0.9rem;
-            color: var(--text-muted);
-            border-bottom: 1px solid rgba(255,255,255,0.1);
-            padding-bottom: 10px;
-            margin-bottom: 20px;
-        }
-
-        .stat-row {
+            letter-spacing: 1px;
+            color: var(--text-dim);
             margin-bottom: 15px;
-        }
-
-        .stat-label {
             display: flex;
             justify-content: space-between;
-            font-size: 0.8rem;
-            margin-bottom: 5px;
-            color: var(--text-main);
+            align-items: center;
         }
 
-        /* The Animated Bars */
-        .bar-container {
-            width: 100%;
-            height: 6px;
-            background: rgba(255,255,255,0.1);
-            border-radius: 3px;
-            overflow: hidden;
-        }
+        h2 { margin: 0; font-size: 1.8rem; font-weight: 600; }
+        p { color: var(--text-dim); line-height: 1.5; }
 
-        .bar-fill {
-            height: 100%;
-            background: var(--accent);
-            width: 0%;
-            animation: loadBar 2s ease-out forwards;
-        }
+        /* SPECIFIC CARDS */
         
-        /* Different colors/speeds for variety */
-        .fill-1 { width: 75%; animation-delay: 0.5s; background: var(--accent); }
-        .fill-2 { width: 45%; animation-delay: 0.7s; background: var(--warning); }
-        .fill-3 { width: 90%; animation-delay: 0.9s; background: var(--success); }
+        /* 1. Main Identity (Top Left) */
+        .card-main {
+            grid-column: 1 / 2;
+            grid-row: 1 / 2;
+            justify-content: center;
+        }
+        .status-badge {
+            display: inline-flex;
+            align-items: center;
+            background: rgba(74, 222, 128, 0.1);
+            color: var(--green);
+            padding: 5px 12px;
+            border-radius: 20px;
+            font-size: 0.8rem;
+            margin-bottom: 20px;
+            width: fit-content;
+        }
+        .dot { height: 8px; width: 8px; background: var(--green); border-radius: 50%; margin-right: 8px; box-shadow: 0 0 10px var(--green); }
 
-        @keyframes loadBar {
-            from { width: 0; }
+        /* 2. Development Log (Bottom Left) */
+        .card-dev {
+            grid-column: 1 / 2;
+            grid-row: 2 / 3;
+            background: #000; /* Darker for terminal feel */
+            font-family: 'Courier New', monospace;
+        }
+        .log-entry { font-size: 0.9rem; color: var(--accent); margin-bottom: 8px; border-bottom: 1px solid #333; padding-bottom: 8px; }
+        .log-date { color: #555; font-size: 0.7rem; margin-right: 10px; }
+
+        /* 3. Contact (Top Middle) */
+        .card-contact {
+            grid-column: 2 / 3;
+            grid-row: 1 / 2;
+            background: linear-gradient(135deg, var(--card-bg), #2c3e50);
+        }
+        .email-link {
+            font-size: 1.2rem;
+            color: var(--text-main);
+            text-decoration: none;
+            border-bottom: 1px solid var(--accent);
+            padding-bottom: 2px;
         }
 
-        /* The "Terminal" Box at bottom */
-        .terminal-log {
-            margin-top: 20px;
-            font-size: 0.75rem;
-            color: var(--text-muted);
-            font-family: monospace;
-            height: 60px;
-            overflow: hidden;
-            border-top: 1px dotted #333;
-            padding-top: 10px;
+        /* 4. Donation / Support (Top Right) */
+        .card-donate {
+            grid-column: 3 / 4;
+            grid-row: 1 / 2;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+        }
+        .crypto-btn {
+            background: var(--purple);
+            color: white;
+            padding: 10px 20px;
+            border-radius: 8px;
+            text-decoration: none;
+            font-weight: bold;
+            margin-top: 10px;
+            display: inline-block;
+            font-size: 0.9rem;
         }
 
-        /* Mobile Responsive */
-        @media (max-width: 700px) {
-            .dashboard { grid-template-columns: 1fr; } /* Stack on phone */
+        /* 5. Stack (Bottom Middle - Tall) */
+        .card-stack {
+            grid-column: 2 / 3;
+            grid-row: 2 / 3;
+        }
+        .tech-tag { display: inline-block; background: rgba(255,255,255,0.1); padding: 5px 10px; border-radius: 6px; font-size: 0.8rem; margin: 3px; }
+
+        /* 6. Location / Map Placeholder (Bottom Right) */
+        .card-loc {
+            grid-column: 3 / 4;
+            grid-row: 2 / 3;
+            background-image: radial-gradient(circle at center, #2d3748 1px, transparent 1px);
+            background-size: 20px 20px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: var(--text-dim);
+        }
+
+        /* MOBILE RESPONSIVE */
+        @media (max-width: 900px) {
+            body { overflow: auto; height: auto; }
+            .grid-container {
+                display: flex;
+                flex-direction: column;
+                height: auto;
+            }
+            .card { min-height: 200px; }
         }
     </style>
 </head>
 <body>
 
-    <div class="dashboard">
-        
-        <div class="card">
-            <h1 id="typing-text">> RSS Research</h1>
-            <p class="subtitle">
-                Algorithmic trading systems and decentralized network architecture.
-                Currently deploying automated strategies for Q1 2026.
+    <div class="grid-container">
+
+        <div class="card card-main">
+            <div class="status-badge"><span class="dot"></span> ONLINE</div>
+            <h1>RSS Research</h1>
+            <p style="font-size: 1.2rem; color: var(--text-main); margin-top: 10px;">
+                Developing automated systems and digital infrastructure.
             </p>
-            <a href="mailto:contact@rssdev.com" class="btn">INITIALIZE CONTACT</a>
+            <p>Focus: Algorithmic Trading • Network Security • Automation</p>
         </div>
 
-        <div class="card">
-            <div class="metrics-title">SYSTEM STATUS // LIVE MONITOR</div>
+        <div class="card card-contact">
+            <div class="card-header">Communication</div>
+            <p>Professional Inquiries:</p>
+            <a href="mailto:rohit@rssdev.com" class="email-link">rohit@rssdev.com</a>
+        </div>
 
-            <div class="stat-row">
-                <div class="stat-label"><span>Volatility Index</span> <span>75%</span></div>
-                <div class="bar-container"><div class="bar-fill fill-1"></div></div>
+        <div class="card card-donate">
+            <div class="card-header" style="width:100%">Fund Research</div>
+            <p style="font-size: 0.9rem; margin-bottom: 15px;">Support open source development.</p>
+            <a href="#" class="crypto-btn">Support via Crypto</a>
+        </div>
+
+        <div class="card card-dev">
+            <div class="card-header" style="color: var(--accent)">>> DEVELOPMENT_LOG</div>
+            
+            <div class="log-entry">
+                <span class="log-date">2026-01-18</span>
+                Initializing RSSdev.com DNS records.
             </div>
-
-            <div class="stat-row">
-                <div class="stat-label"><span>Server Load (US-WEST)</span> <span>45%</span></div>
-                <div class="bar-container"><div class="bar-fill fill-2"></div></div>
+            <div class="log-entry">
+                <span class="log-date">2026-01-15</span>
+                Python trading algorithms: Backtesting phase.
             </div>
-
-            <div class="stat-row">
-                <div class="stat-label"><span>Network Uptime</span> <span>99.9%</span></div>
-                <div class="bar-container"><div class="bar-fill fill-3"></div></div>
+            <div class="log-entry">
+                <span class="log-date">2026-01-10</span>
+                Security protocols updated. SSL Enforced.
             </div>
+            <div class="log-entry">
+                <span class="log-date">STATUS</span>
+                System nominal. Waiting for input...
+            </div>
+        </div>
 
-            <div class="terminal-log" id="log">
-                > Connecting to node...<br>
-                > Handshake verified.<br>
-                > Fetching market data...
+        <div class="card card-stack">
+            <div class="card-header">Current Stack</div>
+            <div>
+                <span class="tech-tag">Python</span>
+                <span class="tech-tag">Luau</span>
+                <span class="tech-tag">Linux</span>
+                <span class="tech-tag">TradingView</span>
+                <span class="tech-tag">Git</span>
+                <span class="tech-tag">Bash</span>
+            </div>
+            <p style="margin-top: 20px; font-size: 0.8rem;">
+                building lightweight tools for complex problems.
+            </p>
+        </div>
+
+        <div class="card card-loc">
+            <div style="text-align: center;">
+                <div style="font-size: 2rem;">📍</div>
+                <div style="margin-top: 10px;">Los Angeles, CA</div>
+                <div style="font-size: 0.7rem; color: #555;">Server Node: US-WEST</div>
             </div>
         </div>
 
     </div>
-
-    <script>
-        // 1. TYPING EFFECT FOR TITLE
-        const title = document.getElementById('typing-text');
-        const text = "> RSS Research";
-        title.innerHTML = '>'; 
-        let i = 2;
-        function typeWriter() {
-            if (i < text.length) {
-                title.innerHTML += text.charAt(i);
-                i++;
-                setTimeout(typeWriter, 100);
-            }
-        }
-        setTimeout(typeWriter, 500);
-
-        // 2. FAKE LOG SCROLLER
-        const log = document.getElementById('log');
-        const messages = [
-            "> Optimization complete.",
-            "> Checksum valid: 0x4F2A.",
-            "> Ping: 14ms.",
-            "> Encryption keys rotating...",
-            "> User session established."
-        ];
-        
-        let msgIndex = 0;
-        setInterval(() => {
-            log.innerHTML += "<br>" + messages[msgIndex];
-            log.scrollTop = log.scrollHeight; // Auto scroll down
-            msgIndex = (msgIndex + 1) % messages.length;
-        }, 2000); // Add a new line every 2 seconds
-    </script>
 
 </body>
 </html>
