@@ -3,242 +3,201 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>RSS Research | Dashboard</title>
+    <title>RSS Research | Quantitative Analysis</title>
     <style>
         :root {
-            --bg: #0f172a;
-            --card-bg: #1e293b;
-            --card-hover: #334155;
-            --text-main: #f1f5f9;
-            --text-dim: #94a3b8;
-            --accent: #38bdf8;  /* Blue */
-            --green: #4ade80;   /* Success */
-            --purple: #c084fc;  /* Crypto/Donation */
+            /* Professional FinTech Palette */
+            --bg-color: #0f172a;       /* Slate 900 */
+            --card-bg: #1e293b;        /* Slate 800 */
+            --text-primary: #f8fafc;   /* Slate 50 */
+            --text-secondary: #94a3b8; /* Slate 400 */
+            --accent: #38bdf8;         /* Sky Blue */
+            --border: rgba(255, 255, 255, 0.08);
         }
-
-        * { box-sizing: border-box; }
 
         body {
-            background-color: var(--bg);
-            color: var(--text-main);
+            background-color: var(--bg-color);
+            color: var(--text-primary);
             font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+            line-height: 1.6;
             margin: 0;
-            padding: 20px;
-            height: 100vh;
+            padding: 40px 20px;
             display: flex;
-            flex-direction: column;
-            overflow: hidden; /* Prevent scrolling on desktop for app feel */
+            justify-content: center;
         }
 
-        /* THE GRID LAYOUT */
-        .grid-container {
-            display: grid;
-            grid-template-columns: 2fr 1fr 1fr; /* Large left, two smaller rights */
-            grid-template-rows: 1fr 1fr;        /* Two rows */
-            gap: 20px;
-            height: 100%;
-            max-width: 1600px;
-            margin: 0 auto;
+        .container {
+            max-width: 1000px;
             width: 100%;
+            display: grid;
+            grid-template-columns: 2fr 1fr; /* Main Content (Left) vs Sidebar (Right) */
+            gap: 40px;
         }
 
-        /* CARD STYLING */
-        .card {
-            background: var(--card-bg);
-            border-radius: 20px;
-            padding: 25px;
-            border: 1px solid rgba(255,255,255,0.05);
-            transition: transform 0.2s, background 0.2s;
-            display: flex;
-            flex-direction: column;
-            position: relative;
-            overflow: hidden;
-        }
-
-        .card:hover {
-            background: var(--card-hover);
-            transform: translateY(-2px);
-            border-color: rgba(255,255,255,0.1);
-            cursor: default;
-        }
-
-        .card-header {
-            font-size: 0.85rem;
-            text-transform: uppercase;
-            letter-spacing: 1px;
-            color: var(--text-dim);
-            margin-bottom: 15px;
+        /* HEADER SECTION */
+        .header {
+            grid-column: 1 / -1; /* Spans full width */
+            border-bottom: 1px solid var(--border);
+            padding-bottom: 20px;
+            margin-bottom: 20px;
             display: flex;
             justify-content: space-between;
-            align-items: center;
+            align-items: end;
         }
 
-        h2 { margin: 0; font-size: 1.8rem; font-weight: 600; }
-        p { color: var(--text-dim); line-height: 1.5; }
-
-        /* SPECIFIC CARDS */
-        
-        /* 1. Main Identity (Top Left) */
-        .card-main {
-            grid-column: 1 / 2;
-            grid-row: 1 / 2;
-            justify-content: center;
+        h1 {
+            font-size: 2rem;
+            margin: 0;
+            font-weight: 700;
+            letter-spacing: -0.5px;
         }
-        .status-badge {
-            display: inline-flex;
-            align-items: center;
-            background: rgba(74, 222, 128, 0.1);
-            color: var(--green);
-            padding: 5px 12px;
-            border-radius: 20px;
-            font-size: 0.8rem;
+
+        .tagline {
+            color: var(--text-secondary);
+            font-size: 1.1rem;
+            margin-top: 5px;
+        }
+
+        /* CARDS */
+        .card {
+            background: var(--card-bg);
+            border: 1px solid var(--border);
+            border-radius: 12px;
+            padding: 30px;
             margin-bottom: 20px;
-            width: fit-content;
         }
-        .dot { height: 8px; width: 8px; background: var(--green); border-radius: 50%; margin-right: 8px; box-shadow: 0 0 10px var(--green); }
 
-        /* 2. Development Log (Bottom Left) */
-        .card-dev {
-            grid-column: 1 / 2;
-            grid-row: 2 / 3;
-            background: #000; /* Darker for terminal feel */
-            font-family: 'Courier New', monospace;
-        }
-        .log-entry { font-size: 0.9rem; color: var(--accent); margin-bottom: 8px; border-bottom: 1px solid #333; padding-bottom: 8px; }
-        .log-date { color: #555; font-size: 0.7rem; margin-right: 10px; }
-
-        /* 3. Contact (Top Middle) */
-        .card-contact {
-            grid-column: 2 / 3;
-            grid-row: 1 / 2;
-            background: linear-gradient(135deg, var(--card-bg), #2c3e50);
-        }
-        .email-link {
+        h2 {
             font-size: 1.2rem;
-            color: var(--text-main);
-            text-decoration: none;
-            border-bottom: 1px solid var(--accent);
-            padding-bottom: 2px;
+            margin-top: 0;
+            color: var(--accent);
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            font-size: 0.85rem;
+            font-weight: 600;
+            margin-bottom: 15px;
         }
 
-        /* 4. Donation / Support (Top Right) */
-        .card-donate {
-            grid-column: 3 / 4;
-            grid-row: 1 / 2;
-            align-items: center;
-            justify-content: center;
-            text-align: center;
+        p { color: #cbd5e1; margin-bottom: 15px; }
+
+        /* ABOUT ME SECTION */
+        .profile-section {
+            display: flex;
+            gap: 20px;
+            align-items: start;
         }
-        .crypto-btn {
-            background: var(--purple);
-            color: white;
-            padding: 10px 20px;
-            border-radius: 8px;
-            text-decoration: none;
-            font-weight: bold;
-            margin-top: 10px;
-            display: inline-block;
+        
+        /* SIDEBAR ITEMS */
+        .stat-item {
+            display: flex;
+            justify-content: space-between;
+            border-bottom: 1px solid var(--border);
+            padding: 12px 0;
             font-size: 0.9rem;
         }
+        .stat-label { color: var(--text-secondary); }
+        .stat-value { font-weight: 600; }
 
-        /* 5. Stack (Bottom Middle - Tall) */
-        .card-stack {
-            grid-column: 2 / 3;
-            grid-row: 2 / 3;
+        .btn {
+            display: block;
+            background: var(--text-primary);
+            color: var(--bg-color);
+            text-align: center;
+            padding: 12px;
+            border-radius: 6px;
+            text-decoration: none;
+            font-weight: 600;
+            margin-top: 20px;
+            transition: 0.2s;
         }
-        .tech-tag { display: inline-block; background: rgba(255,255,255,0.1); padding: 5px 10px; border-radius: 6px; font-size: 0.8rem; margin: 3px; }
+        .btn:hover { background: var(--accent); }
 
-        /* 6. Location / Map Placeholder (Bottom Right) */
-        .card-loc {
-            grid-column: 3 / 4;
-            grid-row: 2 / 3;
-            background-image: radial-gradient(circle at center, #2d3748 1px, transparent 1px);
-            background-size: 20px 20px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            color: var(--text-dim);
+        .btn-outline {
+            background: transparent;
+            border: 1px solid var(--border);
+            color: var(--text-secondary);
+            margin-top: 10px;
         }
+        .btn-outline:hover { border-color: var(--text-primary); color: var(--text-primary); }
 
-        /* MOBILE RESPONSIVE */
-        @media (max-width: 900px) {
-            body { overflow: auto; height: auto; }
-            .grid-container {
-                display: flex;
-                flex-direction: column;
-                height: auto;
-            }
-            .card { min-height: 200px; }
+        /* RESPONSIVE */
+        @media (max-width: 768px) {
+            .container { grid-template-columns: 1fr; }
         }
     </style>
 </head>
 <body>
 
-    <div class="grid-container">
-
-        <div class="card card-main">
-            <div class="status-badge"><span class="dot"></span> ONLINE</div>
-            <h1>RSS Research</h1>
-            <p style="font-size: 1.2rem; color: var(--text-main); margin-top: 10px;">
-                Developing automated systems and digital infrastructure.
-            </p>
-            <p>Focus: Algorithmic Trading • Network Security • Automation</p>
-        </div>
-
-        <div class="card card-contact">
-            <div class="card-header">Communication</div>
-            <p>Professional Inquiries:</p>
-            <a href="mailto:rohit@rssdev.com" class="email-link">rohit@rssdev.com</a>
-        </div>
-
-        <div class="card card-donate">
-            <div class="card-header" style="width:100%">Fund Research</div>
-            <p style="font-size: 0.9rem; margin-bottom: 15px;">Support open source development.</p>
-            <a href="#" class="crypto-btn">Support via Crypto</a>
-        </div>
-
-        <div class="card card-dev">
-            <div class="card-header" style="color: var(--accent)">>> DEVELOPMENT_LOG</div>
-            
-            <div class="log-entry">
-                <span class="log-date">2026-01-18</span>
-                Initializing RSSdev.com DNS records.
-            </div>
-            <div class="log-entry">
-                <span class="log-date">2026-01-15</span>
-                Python trading algorithms: Backtesting phase.
-            </div>
-            <div class="log-entry">
-                <span class="log-date">2026-01-10</span>
-                Security protocols updated. SSL Enforced.
-            </div>
-            <div class="log-entry">
-                <span class="log-date">STATUS</span>
-                System nominal. Waiting for input...
-            </div>
-        </div>
-
-        <div class="card card-stack">
-            <div class="card-header">Current Stack</div>
+    <div class="container">
+        
+        <div class="header">
             <div>
-                <span class="tech-tag">Python</span>
-                <span class="tech-tag">Luau</span>
-                <span class="tech-tag">Linux</span>
-                <span class="tech-tag">TradingView</span>
-                <span class="tech-tag">Git</span>
-                <span class="tech-tag">Bash</span>
+                <h1>RSS Research</h1>
+                <div class="tagline">Data-Driven Market Intelligence & Automation</div>
             </div>
-            <p style="margin-top: 20px; font-size: 0.8rem;">
-                building lightweight tools for complex problems.
-            </p>
+            <div style="text-align: right; font-size: 0.9rem; color: var(--text-secondary);">
+                EST. 2026<br>Los Angeles, CA
+            </div>
         </div>
 
-        <div class="card card-loc">
-            <div style="text-align: center;">
-                <div style="font-size: 2rem;">📍</div>
-                <div style="margin-top: 10px;">Los Angeles, CA</div>
-                <div style="font-size: 0.7rem; color: #555;">Server Node: US-WEST</div>
+        <div class="main-content">
+            
+            <div class="card">
+                <h2>Our Mission</h2>
+                <p style="font-size: 1.2rem; color: white;">
+                    Building next-generation tools for algorithmic trading and data analysis.
+                </p>
+                <p>
+                    RSS Research focuses on extracting actionable signals from noise. We aggregate alternative data sources to build predictive models for financial markets.
+                </p>
+                <p>
+                    <strong>Currently seeking:</strong> Historical tick data and alternative sentiment datasets for Q1 backtesting.
+                </p>
             </div>
+
+            <div class="card">
+                <h2>Lead Researcher</h2>
+                <div class="profile-section">
+                    <div>
+                        <p>
+                            <strong>Rohit Shetty</strong> is a student researcher and developer based in Los Angeles, California. 
+                        </p>
+                        <p>
+                            With a background in <strong>Python automation</strong> and <strong>Quantitative Analysis</strong>, Rohit applies computational methods to solve complex market problems. His work bridges the gap between software architecture and financial theory.
+                        </p>
+                        <p style="font-size: 0.9rem; color: var(--text-secondary); margin-top: 20px;">
+                            <em>Core Competencies: Python, Pine Script, Network Security, Data Mining.</em>
+                        </p>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+
+        <div class="sidebar">
+            
+            <div class="card">
+                <h2>Contact</h2>
+                <div class="stat-item">
+                    <span class="stat-label">Inquiries</span>
+                    <span class="stat-value">Open</span>
+                </div>
+                <div class="stat-item">
+                    <span class="stat-label">Email</span>
+                    <span class="stat-value">rohit@rssdev.com</span>
+                </div>
+                <a href="mailto:rohit@rssdev.com" class="btn">Get in Touch</a>
+            </div>
+
+            <div class="card">
+                <h2>Support Research</h2>
+                <p style="font-size: 0.9rem;">
+                    Our tools are open-source. Contributions fund server costs and data acquisition.
+                </p>
+                <a href="#" class="btn btn-outline">Donate via Crypto</a>
+                <a href="#" class="btn btn-outline">Sponsor on GitHub</a>
+            </div>
+
         </div>
 
     </div>
