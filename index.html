@@ -5,137 +5,217 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>RSS Research | Market Intelligence</title>
     <style>
-        /* THE MODERN FINTECH LOOK */
         :root {
-            --bg-color: #0f172a;       /* Deep Navy Blue */
-            --card-bg: #1e293b;        /* Lighter Blue/Grey */
-            --text-main: #f8fafc;      /* Almost White */
-            --text-muted: #94a3b8;     /* Muted Grey */
-            --accent: #38bdf8;         /* Electric Blue */
+            --bg-color: #0b1120;
+            --card-bg: #1e293b;
+            --text-main: #f8fafc;
+            --text-muted: #94a3b8;
+            --accent: #38bdf8;
+            --success: #34d399;
+            --warning: #fbbf24;
         }
 
         body {
             background-color: var(--bg-color);
             color: var(--text-main);
-            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+            font-family: 'Courier New', Courier, monospace; /* Changed to mono for hacker vibe */
             margin: 0;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            justify-content: center;
             height: 100vh;
-            text-align: center;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            overflow: hidden;
+            
+            /* THE CYBER GRID BACKGROUND */
+            background-image: 
+                linear-gradient(rgba(56, 189, 248, 0.05) 1px, transparent 1px),
+                linear-gradient(90deg, rgba(56, 189, 248, 0.05) 1px, transparent 1px);
+            background-size: 40px 40px;
         }
 
-        /* The "Glass" Card */
-        .container {
-            background: linear-gradient(145deg, var(--card-bg), #111827);
-            padding: 60px 40px;
-            border-radius: 16px;
-            box-shadow: 0 10px 40px rgba(0,0,0,0.5);
-            border: 1px solid rgba(255,255,255,0.05);
-            max-width: 480px;
-            width: 90%;
+        /* Layout: Split into two columns for desktop */
+        .dashboard {
+            display: grid;
+            grid-template-columns: 1fr 1fr; /* Two equal columns */
+            gap: 20px;
+            max-width: 900px;
+            width: 95%;
         }
 
+        .card {
+            background: rgba(30, 41, 59, 0.7); /* Semi-transparent */
+            backdrop-filter: blur(10px);        /* Frosted glass effect */
+            padding: 40px;
+            border-radius: 12px;
+            border: 1px solid rgba(56, 189, 248, 0.1);
+            box-shadow: 0 10px 30px rgba(0,0,0,0.5);
+        }
+
+        /* LEFT SIDE: Intro */
         h1 {
-            font-size: 2.5rem;
-            margin-bottom: 10px;
-            letter-spacing: -1px;
-            background: linear-gradient(to right, #fff, #94a3b8);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
+            margin-top: 0;
+            color: var(--accent);
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            font-size: 1.8rem;
         }
 
         .subtitle {
             color: var(--text-muted);
-            font-size: 1.1rem;
-            margin-bottom: 40px;
-            font-weight: 300;
-        }
-
-        /* The Status Indicator (Subtle tech flex) */
-        .system-status {
-            display: inline-flex;
-            align-items: center;
-            background: rgba(56, 189, 248, 0.1);
-            color: var(--accent);
-            padding: 6px 12px;
-            border-radius: 20px;
-            font-size: 0.85rem;
-            font-weight: 500;
+            line-height: 1.6;
             margin-bottom: 30px;
         }
 
-        .dot {
-            height: 8px;
-            width: 8px;
-            background-color: var(--accent);
-            border-radius: 50%;
-            display: inline-block;
-            margin-right: 8px;
-            box-shadow: 0 0 10px var(--accent);
-        }
-
-        /* The Professional Button */
         .btn {
-            background-color: var(--text-main);
-            color: var(--bg-color);
-            padding: 12px 24px;
-            text-decoration: none;
-            border-radius: 6px;
-            font-weight: 600;
-            transition: transform 0.2s, box-shadow 0.2s;
             display: inline-block;
+            padding: 12px 24px;
+            background: var(--accent);
+            color: var(--bg-color);
+            text-decoration: none;
+            font-weight: bold;
+            border-radius: 4px;
+            transition: 0.3s;
         }
-
         .btn:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 5px 15px rgba(255,255,255,0.2);
+            box-shadow: 0 0 15px var(--accent);
         }
 
-        .footer {
-            margin-top: 30px;
+        /* RIGHT SIDE: The "Graphs" */
+        .metrics-title {
+            font-size: 0.9rem;
+            color: var(--text-muted);
+            border-bottom: 1px solid rgba(255,255,255,0.1);
+            padding-bottom: 10px;
+            margin-bottom: 20px;
+        }
+
+        .stat-row {
+            margin-bottom: 15px;
+        }
+
+        .stat-label {
+            display: flex;
+            justify-content: space-between;
             font-size: 0.8rem;
-            color: #475569;
+            margin-bottom: 5px;
+            color: var(--text-main);
+        }
+
+        /* The Animated Bars */
+        .bar-container {
+            width: 100%;
+            height: 6px;
+            background: rgba(255,255,255,0.1);
+            border-radius: 3px;
+            overflow: hidden;
+        }
+
+        .bar-fill {
+            height: 100%;
+            background: var(--accent);
+            width: 0%;
+            animation: loadBar 2s ease-out forwards;
+        }
+        
+        /* Different colors/speeds for variety */
+        .fill-1 { width: 75%; animation-delay: 0.5s; background: var(--accent); }
+        .fill-2 { width: 45%; animation-delay: 0.7s; background: var(--warning); }
+        .fill-3 { width: 90%; animation-delay: 0.9s; background: var(--success); }
+
+        @keyframes loadBar {
+            from { width: 0; }
+        }
+
+        /* The "Terminal" Box at bottom */
+        .terminal-log {
+            margin-top: 20px;
+            font-size: 0.75rem;
+            color: var(--text-muted);
+            font-family: monospace;
+            height: 60px;
+            overflow: hidden;
+            border-top: 1px dotted #333;
+            padding-top: 10px;
+        }
+
+        /* Mobile Responsive */
+        @media (max-width: 700px) {
+            .dashboard { grid-template-columns: 1fr; } /* Stack on phone */
         }
     </style>
 </head>
 <body>
 
-    <div class="container">
-        <div class="system-status">
-            <span class="dot"></span> Systems Operational
+    <div class="dashboard">
+        
+        <div class="card">
+            <h1 id="typing-text">> RSS Research</h1>
+            <p class="subtitle">
+                Algorithmic trading systems and decentralized network architecture.
+                Currently deploying automated strategies for Q1 2026.
+            </p>
+            <a href="mailto:contact@rssdev.com" class="btn">INITIALIZE CONTACT</a>
         </div>
 
-        <h1>RSS Research</h1>
-        <p class="subtitle">Next-generation data infrastructure and algorithmic market analysis.</p>
+        <div class="card">
+            <div class="metrics-title">SYSTEM STATUS // LIVE MONITOR</div>
 
-        <a href="mailto:kai@rssdev.com" class="btn">Get in Touch</a>
+            <div class="stat-row">
+                <div class="stat-label"><span>Volatility Index</span> <span>75%</span></div>
+                <div class="bar-container"><div class="bar-fill fill-1"></div></div>
+            </div>
 
-        <div class="footer">
-            &copy; 2026 RSS Research Group. All rights reserved.
+            <div class="stat-row">
+                <div class="stat-label"><span>Server Load (US-WEST)</span> <span>45%</span></div>
+                <div class="bar-container"><div class="bar-fill fill-2"></div></div>
+            </div>
+
+            <div class="stat-row">
+                <div class="stat-label"><span>Network Uptime</span> <span>99.9%</span></div>
+                <div class="bar-container"><div class="bar-fill fill-3"></div></div>
+            </div>
+
+            <div class="terminal-log" id="log">
+                > Connecting to node...<br>
+                > Handshake verified.<br>
+                > Fetching market data...
+            </div>
         </div>
+
     </div>
-<script>
-    // This is basically Luau but for the web
-    const title = document.querySelector('h1');
-    const text = "> Rohit Shetty"; // The text you want to type
-    title.innerHTML = '>';         // Clear it to start
-    
-    let i = 2; // Start index
-    function typeWriter() {
-        if (i < text.length) {
-            title.innerHTML += text.charAt(i);
-            i++;
-            setTimeout(typeWriter, 100); // Wait 0.1s
+
+    <script>
+        // 1. TYPING EFFECT FOR TITLE
+        const title = document.getElementById('typing-text');
+        const text = "> RSS Research";
+        title.innerHTML = '>'; 
+        let i = 2;
+        function typeWriter() {
+            if (i < text.length) {
+                title.innerHTML += text.charAt(i);
+                i++;
+                setTimeout(typeWriter, 100);
+            }
         }
-    }
-    
-    // Run the function
-    setTimeout(typeWriter, 500);
-</script>
+        setTimeout(typeWriter, 500);
+
+        // 2. FAKE LOG SCROLLER
+        const log = document.getElementById('log');
+        const messages = [
+            "> Optimization complete.",
+            "> Checksum valid: 0x4F2A.",
+            "> Ping: 14ms.",
+            "> Encryption keys rotating...",
+            "> User session established."
+        ];
+        
+        let msgIndex = 0;
+        setInterval(() => {
+            log.innerHTML += "<br>" + messages[msgIndex];
+            log.scrollTop = log.scrollHeight; // Auto scroll down
+            msgIndex = (msgIndex + 1) % messages.length;
+        }, 2000); // Add a new line every 2 seconds
+    </script>
+
 </body>
-
 </html>
-
