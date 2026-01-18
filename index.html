@@ -6,14 +6,12 @@
     <title>RSS Research | Quantitative Analysis</title>
     <style>
         :root {
-            --bg-color: #0f172a;       
-            --card-bg: #1e293b;        
-            --text-primary: #f8fafc;   
-            --text-secondary: #94a3b8; 
-            --accent: #38bdf8;         
-            --success: #22c55e;
-            --warning: #eab308;
-            --border: rgba(255, 255, 255, 0.08);
+            --bg-color: #0f172a;       /* Slate 900 */
+            --card-bg: #1e293b;        /* Slate 800 */
+            --border: #334155;         /* Slate 700 */
+            --text-primary: #f1f5f9;
+            --text-secondary: #94a3b8;
+            --accent: #38bdf8;         /* Sky Blue */
         }
 
         body {
@@ -22,271 +20,270 @@
             font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
             margin: 0;
             overflow-x: hidden;
+            display: flex;
+            flex-direction: column;
+            min-height: 100vh;
         }
 
-        /* 1. SCROLLING TICKER (Gimmick) */
-        .ticker-wrap {
+        /* 1. TRADINGVIEW TICKER (Top Bar) */
+        .ticker-container {
             width: 100%;
-            background: #020617;
+            height: 46px; /* Exact height for widget */
+            background: #000;
             border-bottom: 1px solid var(--border);
-            overflow: hidden;
-            height: 30px;
-            display: flex;
-            align-items: center;
-        }
-        .ticker {
-            display: inline-block;
-            white-space: nowrap;
-            animation: ticker 20s linear infinite;
-            font-family: monospace;
-            font-size: 0.8rem;
-            color: var(--text-secondary);
-        }
-        .up { color: var(--success); }
-        .down { color: #ef4444; }
-
-        @keyframes ticker {
-            0% { transform: translateX(100%); }
-            100% { transform: translateX(-100%); }
         }
 
-        /* LAYOUT */
-        .container {
-            max-width: 1100px;
-            margin: 40px auto;
-            padding: 0 20px;
+        /* 2. MAIN DASHBOARD GRID */
+        .dashboard {
+            max-width: 1400px;
+            margin: 20px auto;
+            width: 95%;
             display: grid;
-            grid-template-columns: 2fr 1fr;
-            gap: 30px;
+            grid-template-columns: 2fr 1fr 1fr; /* Wide Left, Two Narrow Rights */
+            grid-template-rows: auto auto auto;
+            gap: 20px;
+            flex-grow: 1;
         }
 
-        .header {
-            grid-column: 1 / -1;
-            border-bottom: 1px solid var(--border);
-            padding-bottom: 20px;
-            margin-bottom: 10px;
-            display: flex;
-            justify-content: space-between;
-            align-items: end;
-        }
-
-        h1 { font-size: 2rem; margin: 0; letter-spacing: -1px; }
-        .tagline { color: var(--accent); font-family: monospace; margin-top: 5px; }
-
-        /* CARDS */
+        /* CARD STYLING */
         .card {
             background: var(--card-bg);
             border: 1px solid var(--border);
             border-radius: 8px;
-            padding: 25px;
-            margin-bottom: 20px;
+            padding: 20px;
+            display: flex;
+            flex-direction: column;
+            overflow: hidden;
         }
         
-        h2 {
-            font-size: 0.85rem;
-            color: var(--text-secondary);
+        .card-header {
+            font-size: 0.8rem;
             text-transform: uppercase;
             letter-spacing: 1px;
-            margin-top: 0;
+            color: var(--text-secondary);
+            margin-bottom: 15px;
             border-bottom: 1px solid var(--border);
             padding-bottom: 10px;
-            margin-bottom: 15px;
-        }
-
-        /* MODULE GRID (Gimmick) */
-        .module-grid {
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 15px;
-        }
-        .module {
-            background: rgba(255,255,255,0.03);
-            padding: 15px;
-            border-radius: 6px;
             display: flex;
             justify-content: space-between;
             align-items: center;
         }
-        .status-dot {
-            height: 8px; width: 8px; 
-            background: var(--success); 
-            border-radius: 50%;
-            box-shadow: 0 0 8px var(--success);
-            animation: pulse 2s infinite;
-        }
-        @keyframes pulse { 0% { opacity: 1; } 50% { opacity: 0.5; } 100% { opacity: 1; } }
 
-        /* RESOURCE BARS (New Gimmick) */
-        .resource-row { margin-bottom: 15px; }
-        .res-label { display: flex; justify-content: space-between; font-size: 0.8rem; margin-bottom: 5px; color: var(--text-secondary); }
-        .res-bar-bg { width: 100%; height: 6px; background: rgba(255,255,255,0.1); border-radius: 3px; overflow: hidden; }
-        .res-bar-fill { height: 100%; background: var(--accent); border-radius: 3px; }
+        /* SECTION SPECIFIC LAYOUTS */
         
-        /* CSS Animations for "Fake" Activity */
-        .fill-cpu { width: 45%; animation: fluctuate 3s infinite ease-in-out; }
-        .fill-ram { width: 70%; animation: fluctuate-2 4s infinite ease-in-out; background: var(--warning); }
-        
-        @keyframes fluctuate { 0% { width: 45%; } 50% { width: 65%; } 100% { width: 45%; } }
-        @keyframes fluctuate-2 { 0% { width: 70%; } 50% { width: 75%; } 100% { width: 70%; } }
-
-        /* DATA TABLE (Gimmick) */
-        table { width: 100%; border-collapse: collapse; font-size: 0.9rem; }
-        td { padding: 8px 0; border-bottom: 1px solid var(--border); color: var(--text-secondary); }
-        td:last-child { text-align: right; font-family: monospace; color: var(--text-primary); }
-
-        /* BUTTONS */
-        .btn {
-            display: block;
-            background: var(--accent);
-            color: #000;
-            text-align: center;
-            padding: 12px;
-            border-radius: 4px;
-            text-decoration: none;
-            font-weight: 700;
-            transition: 0.2s;
-            cursor: pointer;
-            border: none;
-            width: 100%;
-            font-size: 1rem;
-        }
-        .btn:hover { background: #7dd3fc; }
-        
-        .btn-outline {
-            display: block;
+        /* Header Info (Top Left) */
+        .grid-header {
+            grid-column: 1 / 2;
             background: transparent;
-            border: 1px solid var(--border);
-            color: var(--text-secondary);
-            margin-top: 10px;
-            text-align: center;
-            padding: 10px;
-            border-radius: 4px;
-            text-decoration: none;
-            font-size: 0.9rem;
+            border: none;
+            padding: 0;
         }
-        .btn-outline:hover { border-color: var(--text-primary); color: var(--text-primary); }
+        h1 { margin: 0; font-size: 1.8rem; font-weight: 700; letter-spacing: -0.5px; }
+        .tagline { color: var(--accent); font-family: monospace; font-size: 0.9rem; margin-top: 5px; }
 
-        @media (max-width: 768px) {
-            .container { grid-template-columns: 1fr; }
-            .module-grid { grid-template-columns: 1fr; }
+        /* Main Chart (Middle Left - Big) */
+        .grid-chart {
+            grid-column: 1 / 2;
+            grid-row: 2 / 4;
+            min-height: 400px;
+            padding: 0; /* No padding for chart to fill edge */
+        }
+
+        /* Analysis Gauge (Top Right) */
+        .grid-gauge {
+            grid-column: 2 / 3;
+            grid-row: 2 / 3;
+            min-height: 300px;
+            padding: 0;
+        }
+
+        /* Market Overview (Top Right - Far) */
+        .grid-market {
+            grid-column: 3 / 4;
+            grid-row: 2 / 3;
+            padding: 0;
+        }
+
+        /* About / Skills (Bottom Right - Wide) */
+        .grid-about {
+            grid-column: 2 / 4;
+            grid-row: 3 / 4;
+        }
+
+        /* Footer / Contact (Bottom Full) */
+        .grid-contact {
+            grid-column: 1 / 4;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            background: #020617;
+        }
+
+        /* UTILITIES */
+        p { font-size: 0.9rem; color: #cbd5e1; line-height: 1.6; margin: 0 0 10px 0; }
+        .tech-tag {
+            display: inline-block;
+            background: rgba(56, 189, 248, 0.1);
+            color: var(--accent);
+            padding: 4px 8px;
+            border-radius: 4px;
+            font-size: 0.75rem;
+            margin-right: 5px;
+            margin-bottom: 5px;
+        }
+
+        .btn {
+            background: var(--text-primary);
+            color: var(--bg-color);
+            text-decoration: none;
+            padding: 8px 16px;
+            border-radius: 4px;
+            font-weight: 600;
+            font-size: 0.9rem;
+            transition: 0.2s;
+        }
+        .btn:hover { background: var(--accent); }
+
+        /* MOBILE FIX */
+        @media (max-width: 1000px) {
+            .dashboard { grid-template-columns: 1fr; display: flex; flex-direction: column; }
+            .grid-chart { min-height: 300px; }
+            .grid-gauge { min-height: 300px; }
         }
     </style>
 </head>
 <body>
 
-    <div class="ticker-wrap">
-        <div class="ticker">
-            BTC_AGGREGATE: 102,403 <span class="up">▲</span> &nbsp;&nbsp;|&nbsp;&nbsp; 
-            LATENCY: 14ms &nbsp;&nbsp;|&nbsp;&nbsp; 
-            SENTIMENT_SCORE: 0.65 <span class="up">▲</span> &nbsp;&nbsp;|&nbsp;&nbsp; 
-            VOLATILITY_INDEX: HIGH &nbsp;&nbsp;|&nbsp;&nbsp; 
-            SERVER_LOAD: 58% &nbsp;&nbsp;|&nbsp;&nbsp; 
-            SYSTEM_STATUS: OPTIMAL
+    <div class="ticker-container">
+        <div class="tradingview-widget-container">
+            <div class="tradingview-widget-container__widget"></div>
+            <script type="text/javascript" src="https://s3.tradingview.com/external-embedding/embed-widget-ticker-tape.js" async>
+            {
+            "symbols": [
+                { "proName": "FOREXCOM:SPXUSD", "title": "S&P 500" },
+                { "proName": "FOREXCOM:NSXUSD", "title": "US 100" },
+                { "proName": "BITSTAMP:BTCUSD", "title": "Bitcoin" },
+                { "proName": "BITSTAMP:ETHUSD", "title": "Ethereum" }
+            ],
+            "showSymbolLogo": true,
+            "colorTheme": "dark",
+            "isTransparent": false,
+            "displayMode": "adaptive",
+            "locale": "en"
+            }
+            </script>
         </div>
     </div>
 
-    <div class="container">
-        
-        <div class="header">
+    <div class="dashboard">
+
+        <div class="card grid-header">
+            <h1>RSS Research</h1>
+            <div class="tagline">QUANTITATIVE ANALYSIS & AUTOMATION</div>
+        </div>
+
+        <div class="card grid-chart">
+            <div class="tradingview-widget-container" style="height:100%;width:100%">
+                <div class="tradingview-widget-container__widget" style="height:calc(100% - 32px);width:100%"></div>
+                <script type="text/javascript" src="https://s3.tradingview.com/external-embedding/embed-widget-advanced-chart.js" async>
+                {
+                "autosize": true,
+                "symbol": "COINBASE:BTCUSD",
+                "interval": "D",
+                "timezone": "Etc/UTC",
+                "theme": "dark",
+                "style": "1",
+                "locale": "en",
+                "enable_publishing": false,
+                "hide_top_toolbar": true,
+                "hide_legend": false,
+                "save_image": false,
+                "calendar": false,
+                "hide_volume": true,
+                "support_host": "https://www.tradingview.com"
+                }
+                </script>
+            </div>
+        </div>
+
+        <div class="card grid-gauge">
+            <div class="tradingview-widget-container" style="height:100%;width:100%">
+                <div class="tradingview-widget-container__widget" style="height:calc(100% - 32px);width:100%"></div>
+                <script type="text/javascript" src="https://s3.tradingview.com/external-embedding/embed-widget-technical-analysis.js" async>
+                {
+                "interval": "1m",
+                "width": "100%",
+                "isTransparent": true,
+                "height": "100%",
+                "symbol": "COINBASE:BTCUSD",
+                "showIntervalTabs": false,
+                "displayMode": "single",
+                "locale": "en",
+                "colorTheme": "dark"
+                }
+                </script>
+            </div>
+        </div>
+
+        <div class="card grid-market">
+            <div class="tradingview-widget-container" style="height:100%;width:100%">
+                <div class="tradingview-widget-container__widget" style="height:calc(100% - 32px);width:100%"></div>
+                <script type="text/javascript" src="https://s3.tradingview.com/external-embedding/embed-widget-market-overview.js" async>
+                {
+                "colorTheme": "dark",
+                "dateRange": "12M",
+                "showChart": false,
+                "locale": "en",
+                "largeChartUrl": "",
+                "isTransparent": true,
+                "showSymbolLogo": true,
+                "showFloatingTooltip": false,
+                "width": "100%",
+                "height": "100%",
+                "tabs": [
+                    {
+                    "title": "Indices",
+                    "symbols": [
+                        { "s": "FOREXCOM:SPXUSD" },
+                        { "s": "FOREXCOM:NSXUSD" },
+                        { "s": "FOREXCOM:DJI" }
+                    ]
+                    }
+                ]
+                }
+                </script>
+            </div>
+        </div>
+
+        <div class="card grid-about">
+            <div class="card-header">
+                <span>Research Focus</span>
+                <span style="color:var(--accent)">ACTIVE</span>
+            </div>
+            <p>
+                Developing Python-based tools for market data analysis and automated execution. 
+                Currently researching volatility strategies and alternative data integration.
+            </p>
+            <div style="margin-top: 10px;">
+                <span class="tech-tag">Python</span>
+                <span class="tech-tag">Pandas</span>
+                <span class="tech-tag">Algorithmic Trading</span>
+                <span class="tech-tag">Backtesting</span>
+                <span class="tech-tag">Pine Script</span>
+            </div>
+        </div>
+
+        <div class="card grid-contact">
+            <div style="font-size: 0.9rem; color: var(--text-secondary);">
+                Based in Los Angeles, CA<br>
+                <span style="font-size: 0.8rem; opacity: 0.6;">System ID: RSS-2026</span>
+            </div>
             <div>
-                <h1>RSS Research</h1>
-                <div class="tagline">> QUANTITATIVE_INTELLIGENCE</div>
-            </div>
-            <div style="text-align: right; font-size: 0.8rem; color: var(--text-secondary);">
-                STATUS: LIVE<br>ID: RSS-2026-LA
+                <a href="mailto:rohit@rssdev.com" class="btn">Contact</a>
+                <a href="https://github.com/yourusername" target="_blank" class="btn" style="background: transparent; border: 1px solid #fff;">GitHub</a>
             </div>
         </div>
 
-        <div class="main-content">
-            
-            <div class="card">
-                <h2>Mission Profile</h2>
-                <p style="color: #cbd5e1; line-height: 1.6;">
-                    RSS Research develops high-frequency data ingestion pipelines and algorithmic trading strategies. 
-                    Our infrastructure leverages alternative data sources to identify market inefficiencies before they resolve.
-                </p>
-            </div>
-
-            <div class="card">
-                <h2>Active Modules</h2>
-                <div class="module-grid">
-                    <div class="module">
-                        <span>Sentiment Analysis</span>
-                        <div class="status-dot"></div>
-                    </div>
-                    <div class="module">
-                        <span>Arbitrage Scanner</span>
-                        <div class="status-dot"></div>
-                    </div>
-                    <div class="module">
-                        <span>Risk Mgmt (Vol)</span>
-                        <div class="status-dot"></div>
-                    </div>
-                    <div class="module">
-                        <span>Portfolio Opt</span>
-                        <div class="status-dot"></div>
-                    </div>
-                </div>
-            </div>
-
-            <div class="card">
-                <h2>Execution Log</h2>
-                <table>
-                    <tr>
-                        <td>[INFO] Data Ingestion Complete</td>
-                        <td>14:02:45 UTC</td>
-                    </tr>
-                    <tr>
-                        <td>[WARN] Volatility Spike Detected (US-Tech)</td>
-                        <td>13:55:12 UTC</td>
-                    </tr>
-                    <tr>
-                        <td>[EXEC] Rebalancing Asset Allocation</td>
-                        <td>12:30:00 UTC</td>
-                    </tr>
-                    <tr>
-                        <td>[SYS] Daily Checksum Verified</td>
-                        <td>08:00:00 UTC</td>
-                    </tr>
-                </table>
-            </div>
-
-        </div>
-
-        <div class="sidebar">
-            
-            <div class="card">
-                <h2>Contact</h2>
-                <a href="mailto:rohit@rssdev.com" class="btn">Email Inquiry</a>
-                <a href="https://github.com/yourusername" target="_blank" class="btn btn-outline">GitHub Profile</a>
-            </div>
-
-            <div class="card">
-                <h2>Cluster Resources</h2>
-                
-                <div class="resource-row">
-                    <div class="res-label"><span>GPU Compute Load</span> <span>58%</span></div>
-                    <div class="res-bar-bg"><div class="res-bar-fill fill-cpu"></div></div>
-                </div>
-
-                <div class="resource-row">
-                    <div class="res-label"><span>Memory Allocation</span> <span>72%</span></div>
-                    <div class="res-bar-bg"><div class="res-bar-fill fill-ram"></div></div>
-                </div>
-                
-                <p style="font-size: 0.75rem; color: var(--text-secondary); margin-top: 15px;">
-                    Node: RSS-MAIN-01<br>
-                    Uptime: 412h 12m
-                </p>
-            </div>
-
-            <div class="card" style="text-align: center;">
-                <h2 style="border:none; margin:0;">Network Node</h2>
-                <div style="font-size: 3rem; margin: 10px 0;">🇺🇸</div>
-                <div style="font-size: 0.8rem; color: var(--text-secondary);">US-WEST (Los Angeles)</div>
-            </div>
-
-        </div>
     </div>
 
 </body>
