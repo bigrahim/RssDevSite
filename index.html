@@ -6,12 +6,12 @@
     <title>RSS Research | Quantitative Analysis</title>
     <style>
         :root {
-            /* Professional FinTech Palette */
-            --bg-color: #0f172a;       /* Slate 900 */
-            --card-bg: #1e293b;        /* Slate 800 */
-            --text-primary: #f8fafc;   /* Slate 50 */
-            --text-secondary: #94a3b8; /* Slate 400 */
-            --accent: #38bdf8;         /* Sky Blue */
+            --bg-color: #0f172a;       
+            --card-bg: #1e293b;        
+            --text-primary: #f8fafc;   
+            --text-secondary: #94a3b8; 
+            --accent: #38bdf8;         
+            --success: #22c55e;
             --border: rgba(255, 255, 255, 0.08);
         }
 
@@ -19,99 +19,126 @@
             background-color: var(--bg-color);
             color: var(--text-primary);
             font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
-            line-height: 1.6;
             margin: 0;
-            padding: 40px 20px;
-            display: flex;
-            justify-content: center;
+            overflow-x: hidden;
         }
 
-        .container {
-            max-width: 1000px;
+        /* 1. SCROLLING TICKER (Gimmick) */
+        .ticker-wrap {
             width: 100%;
-            display: grid;
-            grid-template-columns: 2fr 1fr; /* Main Content (Left) vs Sidebar (Right) */
-            gap: 40px;
+            background: #020617;
+            border-bottom: 1px solid var(--border);
+            overflow: hidden;
+            height: 30px;
+            display: flex;
+            align-items: center;
+        }
+        .ticker {
+            display: inline-block;
+            white-space: nowrap;
+            animation: ticker 20s linear infinite;
+            font-family: monospace;
+            font-size: 0.8rem;
+            color: var(--text-secondary);
+        }
+        .ticker-item { display: inline-block; padding: 0 20px; }
+        .up { color: var(--success); }
+        .down { color: #ef4444; }
+
+        @keyframes ticker {
+            0% { transform: translateX(100%); }
+            100% { transform: translateX(-100%); }
         }
 
-        /* HEADER SECTION */
+        /* LAYOUT */
+        .container {
+            max-width: 1100px;
+            margin: 40px auto;
+            padding: 0 20px;
+            display: grid;
+            grid-template-columns: 2fr 1fr;
+            gap: 30px;
+        }
+
         .header {
-            grid-column: 1 / -1; /* Spans full width */
+            grid-column: 1 / -1;
             border-bottom: 1px solid var(--border);
             padding-bottom: 20px;
-            margin-bottom: 20px;
+            margin-bottom: 10px;
             display: flex;
             justify-content: space-between;
             align-items: end;
         }
 
-        h1 {
-            font-size: 2rem;
-            margin: 0;
-            font-weight: 700;
-            letter-spacing: -0.5px;
-        }
-
-        .tagline {
-            color: var(--text-secondary);
-            font-size: 1.1rem;
-            margin-top: 5px;
-        }
+        h1 { font-size: 2rem; margin: 0; letter-spacing: -1px; }
+        .tagline { color: var(--accent); font-family: monospace; margin-top: 5px; }
 
         /* CARDS */
         .card {
             background: var(--card-bg);
             border: 1px solid var(--border);
-            border-radius: 12px;
-            padding: 30px;
+            border-radius: 8px;
+            padding: 25px;
             margin-bottom: 20px;
         }
-
+        
         h2 {
-            font-size: 1.2rem;
-            margin-top: 0;
-            color: var(--accent);
+            font-size: 0.85rem;
+            color: var(--text-secondary);
             text-transform: uppercase;
             letter-spacing: 1px;
-            font-size: 0.85rem;
-            font-weight: 600;
+            margin-top: 0;
+            border-bottom: 1px solid var(--border);
+            padding-bottom: 10px;
             margin-bottom: 15px;
         }
 
-        p { color: #cbd5e1; margin-bottom: 15px; }
-
-        /* ABOUT ME SECTION */
-        .profile-section {
-            display: flex;
-            gap: 20px;
-            align-items: start;
+        /* MODULE GRID (Gimmick) */
+        .module-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 15px;
         }
-        
-        /* SIDEBAR ITEMS */
-        .stat-item {
+        .module {
+            background: rgba(255,255,255,0.03);
+            padding: 15px;
+            border-radius: 6px;
             display: flex;
             justify-content: space-between;
-            border-bottom: 1px solid var(--border);
-            padding: 12px 0;
-            font-size: 0.9rem;
+            align-items: center;
         }
-        .stat-label { color: var(--text-secondary); }
-        .stat-value { font-weight: 600; }
+        .status-dot {
+            height: 8px; width: 8px; 
+            background: var(--success); 
+            border-radius: 50%;
+            box-shadow: 0 0 8px var(--success);
+            animation: pulse 2s infinite;
+        }
+        @keyframes pulse { 0% { opacity: 1; } 50% { opacity: 0.5; } 100% { opacity: 1; } }
 
+        /* DATA TABLE (Gimmick) */
+        table { width: 100%; border-collapse: collapse; font-size: 0.9rem; }
+        td { padding: 8px 0; border-bottom: 1px solid var(--border); color: var(--text-secondary); }
+        td:last-child { text-align: right; font-family: monospace; color: var(--text-primary); }
+
+        /* BUTTONS */
         .btn {
             display: block;
-            background: var(--text-primary);
-            color: var(--bg-color);
+            background: var(--accent);
+            color: #000;
             text-align: center;
             padding: 12px;
-            border-radius: 6px;
+            border-radius: 4px;
             text-decoration: none;
-            font-weight: 600;
-            margin-top: 20px;
+            font-weight: 700;
             transition: 0.2s;
+            cursor: pointer;
+            border: none;
+            width: 100%;
+            font-size: 1rem;
         }
-        .btn:hover { background: var(--accent); }
-
+        .btn:hover { background: #7dd3fc; }
+        
         .btn-outline {
             background: transparent;
             border: 1px solid var(--border);
@@ -120,56 +147,104 @@
         }
         .btn-outline:hover { border-color: var(--text-primary); color: var(--text-primary); }
 
-        /* RESPONSIVE */
+        /* CRYPTO MODAL */
+        .modal {
+            display: none; /* Hidden by default */
+            margin-top: 15px;
+            background: #0f172a;
+            padding: 15px;
+            border-radius: 4px;
+            border: 1px solid var(--accent);
+            font-family: monospace;
+            font-size: 0.8rem;
+            color: var(--accent);
+            word-break: break-all;
+        }
+
         @media (max-width: 768px) {
             .container { grid-template-columns: 1fr; }
+            .module-grid { grid-template-columns: 1fr; }
         }
     </style>
 </head>
 <body>
+
+    <div class="ticker-wrap">
+        <div class="ticker">
+            BTC/USD <span class="up">+1.2%</span> &nbsp;&nbsp;|&nbsp;&nbsp; 
+            ETH/USD <span class="down">-0.4%</span> &nbsp;&nbsp;|&nbsp;&nbsp; 
+            SPX <span class="up">+0.8%</span> &nbsp;&nbsp;|&nbsp;&nbsp; 
+            VIX <span class="down">-2.1%</span> &nbsp;&nbsp;|&nbsp;&nbsp; 
+            SERVER_LOAD: 34% &nbsp;&nbsp;|&nbsp;&nbsp; 
+            NODES_ACTIVE: 12/12 &nbsp;&nbsp;|&nbsp;&nbsp; 
+            RSS_ALGO_V2: ONLINE
+        </div>
+    </div>
 
     <div class="container">
         
         <div class="header">
             <div>
                 <h1>RSS Research</h1>
-                <div class="tagline">Data-Driven Market Intelligence & Automation</div>
+                <div class="tagline">> QUANTITATIVE_INTELLIGENCE</div>
             </div>
-            <div style="text-align: right; font-size: 0.9rem; color: var(--text-secondary);">
-                EST. 2026<br>Los Angeles, CA
+            <div style="text-align: right; font-size: 0.8rem; color: var(--text-secondary);">
+                STATUS: NOMINAL<br>ID: RSS-2026-LA
             </div>
         </div>
 
         <div class="main-content">
             
             <div class="card">
-                <h2>Our Mission</h2>
-                <p style="font-size: 1.2rem; color: white;">
-                    Building next-generation tools for algorithmic trading and data analysis.
-                </p>
-                <p>
-                    RSS Research focuses on extracting actionable signals from noise. We aggregate alternative data sources to build predictive models for financial markets.
-                </p>
-                <p>
-                    <strong>Currently seeking:</strong> Historical tick data and alternative sentiment datasets for Q1 backtesting.
+                <h2>System Overview</h2>
+                <p style="color: #cbd5e1; line-height: 1.6;">
+                    RSS Research develops high-frequency data ingestion pipelines and algorithmic trading strategies. 
+                    Our infrastructure leverages alternative data sources to identify market inefficiencies before they resolve.
                 </p>
             </div>
 
             <div class="card">
-                <h2>Lead Researcher</h2>
-                <div class="profile-section">
-                    <div>
-                        <p>
-                            <strong>Rohit Shetty</strong> is a student researcher and developer based in Los Angeles, California. 
-                        </p>
-                        <p>
-                            With a background in <strong>Python automation</strong> and <strong>Quantitative Analysis</strong>, Rohit applies computational methods to solve complex market problems. His work bridges the gap between software architecture and financial theory.
-                        </p>
-                        <p style="font-size: 0.9rem; color: var(--text-secondary); margin-top: 20px;">
-                            <em>Core Competencies: Python, Pine Script, Network Security, Data Mining.</em>
-                        </p>
+                <h2>Active Modules</h2>
+                <div class="module-grid">
+                    <div class="module">
+                        <span>Sentiment Analysis</span>
+                        <div class="status-dot"></div>
+                    </div>
+                    <div class="module">
+                        <span>Arbitrage Scanner</span>
+                        <div class="status-dot"></div>
+                    </div>
+                    <div class="module">
+                        <span>Risk Mgmt (Vol)</span>
+                        <div class="status-dot"></div>
+                    </div>
+                    <div class="module">
+                        <span>Portfolio Opt</span>
+                        <div class="status-dot"></div>
                     </div>
                 </div>
+            </div>
+
+            <div class="card">
+                <h2>Recent Signal Log</h2>
+                <table>
+                    <tr>
+                        <td>[INFO] Data Ingestion Complete</td>
+                        <td>14:02:45 UTC</td>
+                    </tr>
+                    <tr>
+                        <td>[WARN] Volatility Spike Detected (US-Tech)</td>
+                        <td>13:55:12 UTC</td>
+                    </tr>
+                    <tr>
+                        <td>[EXEC] Rebalancing Asset Allocation</td>
+                        <td>12:30:00 UTC</td>
+                    </tr>
+                    <tr>
+                        <td>[SYS] Daily Checksum Verified</td>
+                        <td>08:00:00 UTC</td>
+                    </tr>
+                </table>
             </div>
 
         </div>
@@ -177,30 +252,48 @@
         <div class="sidebar">
             
             <div class="card">
-                <h2>Contact</h2>
-                <div class="stat-item">
-                    <span class="stat-label">Inquiries</span>
-                    <span class="stat-value">Open</span>
-                </div>
-                <div class="stat-item">
-                    <span class="stat-label">Email</span>
-                    <span class="stat-value">rohit@rssdev.com</span>
-                </div>
-                <a href="mailto:rohit@rssdev.com" class="btn">Get in Touch</a>
+                <h2>Connect</h2>
+                <a href="mailto:rohit@rssdev.com" class="btn">Email Inquiry</a>
+                <a href="https://github.com/yourusername" target="_blank" class="btn btn-outline">GitHub Profile</a>
             </div>
 
             <div class="card">
-                <h2>Support Research</h2>
-                <p style="font-size: 0.9rem;">
-                    Our tools are open-source. Contributions fund server costs and data acquisition.
+                <h2>Contribution</h2>
+                <p style="font-size: 0.9rem; color: var(--text-secondary); margin-bottom: 20px;">
+                    Support our open-source data initiatives.
                 </p>
-                <a href="#" class="btn btn-outline">Donate via Crypto</a>
-                <a href="#" class="btn btn-outline">Sponsor on GitHub</a>
+                
+                <button onclick="toggleCrypto()" class="btn btn-outline" style="border-color: var(--accent); color: var(--accent);">
+                    Crypto Donation
+                </button>
+
+                <div id="crypto-box" class="modal">
+                    <strong>BTC:</strong><br>
+                    bc1qxy2kgdygjrsqtzq2n0yrf2493p83kkfjhx0wlh<br><br>
+                    <strong>ETH:</strong><br>
+                    0x71C7656EC7ab88b098defB751B7401B5f6d8976F
+                </div>
+            </div>
+
+            <div class="card" style="text-align: center;">
+                <h2 style="border:none; margin:0;">Server Region</h2>
+                <div style="font-size: 3rem; margin: 10px 0;">🇺🇸</div>
+                <div style="font-size: 0.8rem; color: var(--text-secondary);">US-WEST (Los Angeles)</div>
             </div>
 
         </div>
-
     </div>
+
+    <script>
+        function toggleCrypto() {
+            var box = document.getElementById("crypto-box");
+            if (box.style.display === "block") {
+                box.style.display = "none";
+            } else {
+                box.style.display = "block";
+            }
+        }
+    </script>
 
 </body>
 </html>
